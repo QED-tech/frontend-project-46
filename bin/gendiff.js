@@ -1,4 +1,5 @@
-const { Command } = require('commander');
+import { Command } from 'commander';
+import fileReader from '../src/helper/file_reader.js';
 
 const program = new Command();
 
@@ -11,3 +12,8 @@ program
   .argument('<filepath2>');
 
 program.parse();
+
+const firstFile = program.args[0];
+
+const file = fileReader(firstFile);
+console.log(file);
