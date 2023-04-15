@@ -13,5 +13,8 @@
     "commander": "^10.0.0",
     "eslint-config-airbnb": "^19.0.4",
     "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
   }
 }

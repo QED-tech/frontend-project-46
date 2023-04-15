@@ -26,7 +26,7 @@ const getDiffRowByNode = (node, nodeKey) => {
   }
 };
 
-export default (ast, formatForPresent) => {
+export default (ast) => {
   const build = lodash.reduce(ast, (acc, val, key) => {
     acc.push(getDiffRowByNode(val, key));
     return acc;
