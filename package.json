@@ -13,6 +13,7 @@
     "@jest/globals": "^29.5.0",
     "commander": "^10.0.0",
     "eslint-config-airbnb": "^19.0.4",
+    "js-yaml": "^4.1.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

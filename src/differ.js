@@ -1,4 +1,4 @@
-import fileParser from './helper/file_parser.js';
+import fileParser from './parsers/file_parser.js';
 import getDiffAst from './helper/diff_ast_parser.js';
 import format from './formatters/formatter.js';
 
