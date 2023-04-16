@@ -15,7 +15,7 @@ const getDiffRowByNode = (node, nodeKey) => {
     }
     case 'changed': {
       const rowWithOldValue = `${levelSpaces}- ${nodeKey}: ${node.old_value}`;
-      const rowWithNewValue = `${levelSpaces}- ${nodeKey}: ${node.new_value}`;
+      const rowWithNewValue = `${levelSpaces}+ ${nodeKey}: ${node.new_value}`;
 
       return [rowWithOldValue, rowWithNewValue].join('\n');
     }

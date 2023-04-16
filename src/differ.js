@@ -7,7 +7,5 @@ export default (firstFilePath, secondFilePath, formatForPresent) => {
 
   const ast = getDiffAst(parsedFiles.firstFile, parsedFiles.secondFile);
 
-  const formatted = format(ast, formatForPresent);
-
-  console.log(formatted);
+  return format(ast, formatForPresent);
 };
