@@ -59,4 +59,4 @@ const stylish = (ast, deep = 1) => {
   return build.join('');
 };
 
-export default (ast) => `{\n${stylish(ast).trimEnd()}\n}`;
+export default (ast) => `{\n${stylish(ast)}}`;
