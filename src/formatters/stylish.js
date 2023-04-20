@@ -10,14 +10,12 @@ const reduceObject = (tree, deep) => {
   }
 
   return _.reduce(tree, (acc, val, key) => {
-    let currentRow = '';
     if (_.isObject(val)) {
-      currentRow += `\n${spaces(deep, 0)}${key}: {`;
-      currentRow += `${reduceObject(val, deep + 1)}\n${spaces(deep, 0)}}`;
+      const currentRow = `\n${spaces(deep, 0)}${key}: {${reduceObject(val, deep + 1)}\n${spaces(deep, 0)}}`;
       return acc + currentRow;
     }
 
-    currentRow += `\n${spaces(deep, 0)}${key}: ${val}`;
+    const currentRow = `\n${spaces(deep, 0)}${key}: ${val}`;
     return acc + currentRow;
   }, '');
 };
