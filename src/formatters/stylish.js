@@ -2,33 +2,33 @@ import _ from 'lodash';
 
 const levelSpaces = ' ';
 
-const spaces = (deep, leftShift) => levelSpaces.repeat(deep * 4 - leftShift);
+const spaces = (deepth, leftShift) => levelSpaces.repeat(deepth * 4 - leftShift);
 
-const reduceObject = (tree, deep) => {
+const reduceObject = (tree, deepth) => {
   if (!_.isObject(tree)) {
     return tree;
   }
 
   return _.reduce(tree, (acc, val, key) => {
     if (_.isObject(val)) {
-      const currentRow = `\n${spaces(deep, 0)}${key}: {${reduceObject(val, deep + 1)}\n${spaces(deep, 0)}}`;
+      const currentRow = `\n${spaces(deepth, 0)}${key}: {${reduceObject(val, deepth + 1)}\n${spaces(deepth, 0)}}`;
       return acc + currentRow;
     }
 
-    const currentRow = `\n${spaces(deep, 0)}${key}: ${val}`;
+    const currentRow = `\n${spaces(deepth, 0)}${key}: ${val}`;
     return acc + currentRow;
   }, '');
 };
 
-const stringifyNodeValue = (value, deep) => {
+const stringifyNodeValue = (value, deepth) => {
   if (!_.isObject(value)) {
     return value;
   }
 
-  return `{${reduceObject(value, deep + 1)}\n${spaces(deep, 0)}}`;
+  return `{${reduceObject(value, deepth + 1)}\n${spaces(deepth, 0)}}`;
 };
 
-const stylish = (ast, deep = 1) => {
+const stylish = (ast, deepth = 1) => {
   const build = ast.map((node) => {
     const {
       key, value, oldVal, newVal, state, children,
@@ -36,24 +36,24 @@ const stylish = (ast, deep = 1) => {
 
     switch (state) {
       case 'parent': {
-        return `${spaces(deep, 0)}${key}: {\n${stylish(children, deep + 1)}${spaces(deep, 0)}}\n`;
+        return `${spaces(deepth, 0)}${key}: {\n${stylish(children, deepth + 1)}${spaces(deepth, 0)}}\n`;
       }
       case 'equals': {
-        const nodeValue = stringifyNodeValue(value, deep);
-        return `${spaces(deep, 2)}  ${key}: ${nodeValue}\n`;
+        const nodeValue = stringifyNodeValue(value, deepth);
+        return `${spaces(deepth, 2)}  ${key}: ${nodeValue}\n`;
       }
       case 'deleted': {
-        const nodeValue = stringifyNodeValue(value, deep);
-        return `${spaces(deep, 2)}- ${key}: ${nodeValue}\n`;
+        const nodeValue = stringifyNodeValue(value, deepth);
+        return `${spaces(deepth, 2)}- ${key}: ${nodeValue}\n`;
       }
       case 'added': {
-        const nodeValue = stringifyNodeValue(value, deep);
-        return `${spaces(deep, 2)}+ ${key}: ${nodeValue}\n`;
+        const nodeValue = stringifyNodeValue(value, deepth);
+        return `${spaces(deepth, 2)}+ ${key}: ${nodeValue}\n`;
       }
       case 'changed': {
-        const oldValue = stringifyNodeValue(oldVal, deep);
-        const newValue = stringifyNodeValue(newVal, deep);
-        return `${spaces(deep, 2)}- ${key}: ${oldValue}\n${spaces(deep, 2)}+ ${key}: ${newValue}\n`;
+        const oldValue = stringifyNodeValue(oldVal, deepth);
+        const newValue = stringifyNodeValue(newVal, deepth);
+        return `${spaces(deepth, 2)}- ${key}: ${oldValue}\n${spaces(deepth, 2)}+ ${key}: ${newValue}\n`;
       }
 
       default: {
