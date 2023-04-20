@@ -2,47 +2,65 @@ import lodash from 'lodash';
 
 function getKeysFromTrees(firstTree, secondTree) {
   const merged = lodash.concat(Object.keys(firstTree), Object.keys(secondTree));
-
-  return lodash.union(merged);
+  return lodash.uniq(merged).sort();
 }
 
 function parseAST(firstTree, secondTree) {
   const keys = getKeysFromTrees(firstTree, secondTree);
-
   return keys.reduce((acc, key) => {
     const issetInFirstAndSecondTrees = lodash.has(firstTree, key) && lodash.has(secondTree, key);
+    let node;
 
-    if (issetInFirstAndSecondTrees && firstTree[key] === secondTree[key]) {
-      acc[key] = {
-        value: firstTree[key],
-        state: 'equals',
-      };
+    switch (true) {
+      case lodash.isObject(firstTree[key]) && lodash.isObject(secondTree[key]): {
+        node = {
+          children: parseAST(firstTree[key], secondTree[key]),
+          state: 'parent',
+          key,
+        };
+        break;
+      }
+
+      case issetInFirstAndSecondTrees && firstTree[key] === secondTree[key]: {
+        node = {
+          value: firstTree[key],
+          state: 'equals',
+          key,
+        };
+        break;
+      }
+
+      case !lodash.has(secondTree, key): {
+        node = {
+          value: firstTree[key],
+          state: 'deleted',
+          key,
+        };
+        break;
+      }
+
+      case !lodash.has(firstTree, key): {
+        node = {
+          value: secondTree[key],
+          state: 'added',
+          key,
+        };
+        break;
+      }
+
+      default: {
+        node = {
+          old_value: firstTree[key],
+          new_value: secondTree[key],
+          state: 'changed',
+          key,
+        };
+      }
     }
 
-    if (!lodash.has(secondTree, key)) {
-      acc[key] = {
-        value: firstTree[key],
-        state: 'deleted',
-      };
-    }
-
-    if (!lodash.has(firstTree, key)) {
-      acc[key] = {
-        value: secondTree[key],
-        state: 'added',
-      };
-    }
-
-    if (issetInFirstAndSecondTrees && firstTree[key] !== secondTree[key]) {
-      acc[key] = {
-        old_value: firstTree[key],
-        new_value: secondTree[key],
-        state: 'changed',
-      };
-    }
-
+    acc.push(node);
     return acc;
-  }, {});
+  }, []);
 }
 
 export default parseAST;

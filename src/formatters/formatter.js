@@ -1,36 +1,15 @@
-import lodash from 'lodash';
+import stylish from './stylish.js';
 
-const levelSpaces = '  ';
-
-const getDiffRowByNode = (node, nodeKey) => {
-  switch (node.state) {
-    case 'equals': {
-      return `${levelSpaces}  ${nodeKey}: ${node.value}`;
-    }
-    case 'deleted': {
-      return `${levelSpaces}- ${nodeKey}: ${node.value}`;
-    }
-    case 'added': {
-      return `${levelSpaces}+ ${nodeKey}: ${node.value}`;
-    }
-    case 'changed': {
-      const rowWithOldValue = `${levelSpaces}- ${nodeKey}: ${node.old_value}`;
-      const rowWithNewValue = `${levelSpaces}+ ${nodeKey}: ${node.new_value}`;
-
-      return [rowWithOldValue, rowWithNewValue].join('\n');
+const format = (ast, formatForPresent) => {
+  switch (formatForPresent) {
+    case 'stylish': {
+      return stylish(ast);
     }
 
     default: {
-      return nodeKey;
+      throw new Error('undefined format');
     }
   }
 };
 
-export default (ast) => {
-  const build = lodash.reduce(ast, (acc, val, key) => {
-    acc.push(getDiffRowByNode(val, key));
-    return acc;
-  }, []);
-
-  return ['{', build.join('\n'), '}'].join('\n');
-};
+export default format;

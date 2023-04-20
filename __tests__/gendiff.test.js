@@ -21,3 +21,10 @@ test('gen diff 2 flat yaml files', () => {
 
   expect(actual).toBe(expected);
 });
+
+test('gen diff 2 nested json files', () => {
+  const expected = fs.readFileSync(`${__dirname}/../__fixtures__/nested_json/expected.txt`, 'utf8');
+  const actual = genDiff(`${__dirname}/../__fixtures__/nested_json/file1.json`, `${__dirname}/../__fixtures__/nested_json/file2.json`);
+
+  expect(actual).toBe(expected);
+});
