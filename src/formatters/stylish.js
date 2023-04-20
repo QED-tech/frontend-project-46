@@ -30,24 +30,30 @@ const stringifyNodeValue = (value, deep) => {
 
 const stylish = (ast, deep = 1) => {
   const build = ast.map((node) => {
-    switch (node.state) {
+    const {
+      key, value, oldVal, newVal, state, children,
+    } = node;
+
+    switch (state) {
       case 'parent': {
-        return `${spaces(deep, 0)}${node.key}: {\n${stylish(node.children, deep + 1)}${spaces(deep, 0)}}\n`;
+        return `${spaces(deep, 0)}${key}: {\n${stylish(children, deep + 1)}${spaces(deep, 0)}}\n`;
       }
       case 'equals': {
-        return `${spaces(deep, 2)}  ${node.key}: ${stringifyNodeValue(node.value, deep)}\n`;
+        const nodeValue = stringifyNodeValue(value, deep);
+        return `${spaces(deep, 2)}  ${key}: ${nodeValue}\n`;
       }
       case 'deleted': {
-        return `${spaces(deep, 2)}- ${node.key}: ${stringifyNodeValue(node.value, deep)}\n`;
+        const nodeValue = stringifyNodeValue(value, deep);
+        return `${spaces(deep, 2)}- ${key}: ${nodeValue}\n`;
       }
       case 'added': {
-        return `${spaces(deep, 2)}+ ${node.key}: ${stringifyNodeValue(node.value, deep)}\n`;
+        const nodeValue = stringifyNodeValue(value, deep);
+        return `${spaces(deep, 2)}+ ${key}: ${nodeValue}\n`;
       }
       case 'changed': {
-        const rowWithOldValue = `${spaces(deep, 2)}- ${node.key}: ${stringifyNodeValue(node.old_value, deep)}\n`;
-        const rowWithNewValue = `${spaces(deep, 2)}+ ${node.key}: ${stringifyNodeValue(node.new_value, deep)}\n`;
-
-        return [rowWithOldValue, rowWithNewValue].join('');
+        const oldValue = stringifyNodeValue(oldVal, deep);
+        const newValue = stringifyNodeValue(newVal, deep);
+        return `${spaces(deep, 2)}- ${key}: ${oldValue}\n${spaces(deep, 2)}+ ${key}: ${newValue}\n`;
       }
 
       default: {

@@ -50,8 +50,8 @@ function parseAST(firstTree, secondTree) {
 
       default: {
         node = {
-          old_value: firstTree[key],
-          new_value: secondTree[key],
+          oldVal: firstTree[key],
+          newVal: secondTree[key],
           state: 'changed',
           key,
         };
