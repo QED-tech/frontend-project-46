@@ -1,8 +1,8 @@
-import lodash from 'lodash';
+import _ from 'lodash';
 import { extname } from 'path';
 import getFileParserByExtension from './parser_factory.js';
 
-const sortKeys = (obj) => lodash(obj).keys().sort().reduce((acc, key) => {
+const sortKeys = (obj) => _(obj).keys().sort().reduce((acc, key) => {
   acc[key] = obj[key];
   return acc;
 }, {});

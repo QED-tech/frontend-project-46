@@ -1,18 +1,18 @@
-import lodash from 'lodash';
+import _ from 'lodash';
 
 function getKeysFromTrees(firstTree, secondTree) {
-  const merged = lodash.concat(Object.keys(firstTree), Object.keys(secondTree));
-  return lodash.uniq(merged).sort();
+  const merged = _.concat(_.keys(firstTree), _.keys(secondTree));
+  return _.uniq(merged).sort();
 }
 
 function parseAST(firstTree, secondTree) {
   const keys = getKeysFromTrees(firstTree, secondTree);
   return keys.reduce((acc, key) => {
-    const issetInFirstAndSecondTrees = lodash.has(firstTree, key) && lodash.has(secondTree, key);
+    const issetInFirstAndSecondTrees = _.has(firstTree, key) && _.has(secondTree, key);
     let node;
 
     switch (true) {
-      case lodash.isObject(firstTree[key]) && lodash.isObject(secondTree[key]): {
+      case _.isObject(firstTree[key]) && _.isObject(secondTree[key]): {
         node = {
           children: parseAST(firstTree[key], secondTree[key]),
           state: 'parent',
@@ -30,7 +30,7 @@ function parseAST(firstTree, secondTree) {
         break;
       }
 
-      case !lodash.has(secondTree, key): {
+      case !_.has(secondTree, key): {
         node = {
           value: firstTree[key],
           state: 'deleted',
@@ -39,7 +39,7 @@ function parseAST(firstTree, secondTree) {
         break;
       }
 
-      case !lodash.has(firstTree, key): {
+      case !_.has(firstTree, key): {
         node = {
           value: secondTree[key],
           state: 'added',
