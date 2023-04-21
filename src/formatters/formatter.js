@@ -11,6 +11,10 @@ const format = (ast, formatForPresent) => {
       return plain(ast);
     }
 
+    case 'json': {
+      return JSON.stringify(ast, null, 2)
+    }
+
     default: {
       throw new Error('undefined format');
     }
