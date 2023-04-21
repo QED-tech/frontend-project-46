@@ -1,16 +1,14 @@
 import _ from 'lodash';
 
 function getKeysFromTrees(firstTree, secondTree) {
-  const merged = _.concat(_.keys(firstTree), _.keys(secondTree));
-  return _.uniq(merged).sort();
+  return _.union(_.keys(firstTree), _.keys(secondTree)).sort();
 }
 
 function parseAST(firstTree, secondTree) {
   const keys = getKeysFromTrees(firstTree, secondTree);
   return keys.reduce((acc, key) => {
     const issetInFirstAndSecondTrees = _.has(firstTree, key) && _.has(secondTree, key);
-    let node;
-
+    let node = {};
     switch (true) {
       case _.isObject(firstTree[key]) && _.isObject(secondTree[key]): {
         node = {
@@ -58,8 +56,7 @@ function parseAST(firstTree, secondTree) {
       }
     }
 
-    acc.push(node);
-    return acc;
+    return acc.concat(node);
   }, []);
 }
 
