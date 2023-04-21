@@ -2,10 +2,13 @@ import _ from 'lodash';
 import { extname } from 'path';
 import getFileParserByExtension from './parser_factory.js';
 
-const sortKeys = (obj) => _(obj).keys().sort().reduce((acc, key) => {
-  acc[key] = obj[key];
-  return acc;
-}, {});
+const sortKeys = (obj) => _(obj)
+  .keys()
+  .sortBy()
+  .reduce((acc, key) => ({
+    ...acc,
+    [key]: obj[key],
+  }), {});
 
 export default (firstFilePath, secondFilePath) => {
   const extencion = extname(firstFilePath);

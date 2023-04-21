@@ -1,62 +1,62 @@
 import _ from 'lodash';
 
 function getKeysFromTrees(firstTree, secondTree) {
-  return _.union(_.keys(firstTree), _.keys(secondTree)).sort();
+  return _.sortBy(_.union(_.keys(firstTree), _.keys(secondTree)));
 }
 
 function parseAST(firstTree, secondTree) {
   const keys = getKeysFromTrees(firstTree, secondTree);
   return keys.reduce((acc, key) => {
     const issetInFirstAndSecondTrees = _.has(firstTree, key) && _.has(secondTree, key);
-    let node = {};
     switch (true) {
       case _.isObject(firstTree[key]) && _.isObject(secondTree[key]): {
-        node = {
+        const node = {
           children: parseAST(firstTree[key], secondTree[key]),
           state: 'parent',
           key,
         };
-        break;
+        return [...acc, node];
       }
 
       case issetInFirstAndSecondTrees && firstTree[key] === secondTree[key]: {
-        node = {
+        const node = {
           value: firstTree[key],
           state: 'equals',
           key,
         };
-        break;
+        return [...acc, node];
       }
 
       case !_.has(secondTree, key): {
-        node = {
+        const node = {
           value: firstTree[key],
           state: 'deleted',
           key,
         };
-        break;
+        return [...acc, node];
       }
 
       case !_.has(firstTree, key): {
-        node = {
+        const node = {
           value: secondTree[key],
           state: 'added',
           key,
         };
-        break;
+
+        return [...acc, node];
       }
 
       default: {
-        node = {
+        const node = {
           oldVal: firstTree[key],
           newVal: secondTree[key],
           state: 'changed',
           key,
         };
+
+        return [...acc, node];
       }
     }
-
-    return acc.concat(node);
   }, []);
 }
 
