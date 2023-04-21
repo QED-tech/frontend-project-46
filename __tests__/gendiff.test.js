@@ -28,3 +28,14 @@ test('gen diff 2 nested json files', () => {
 
   expect(actual).toBe(expected);
 });
+
+test('gen diff 2 nested json files with plain format', () => {
+  const expected = fs.readFileSync(`${__dirname}/../__fixtures__/plain_nested_json/expected.txt`, 'utf8');
+  const actual = genDiff(
+    `${__dirname}/../__fixtures__/plain_nested_json/file1.json`,
+    `${__dirname}/../__fixtures__/plain_nested_json/file2.json`,
+    'plain',
+  );
+
+  expect(actual).toBe(expected);
+});
