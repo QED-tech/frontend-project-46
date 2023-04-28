@@ -7,7 +7,29 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e6b7fcb53d55eb073ed2/test_coverage)](https://codeclimate.com/github/QED-tech/frontend-project-46/test_coverage)
 
-# Examples usage:
+## **Sistem requirements:**
+  ***Node.js v19.0.0***
+
+## **Installation:**
+1. Clone the project
+2. Install dependencies
+
+ ```bash
+ make install
+ ```
+ ### **Usage:**
+```
+Usage: gendiff [options] <filepath1> <filepath2>
+
+Compares two configuration files and shows a difference.
+
+Options:
+  -V, --version        output the version number
+  -f, --format <type>  output format (default: "stylish")
+  -h, --help           display help for command
+```
+
+# Examples:
 
 ## Stylish format:
 
