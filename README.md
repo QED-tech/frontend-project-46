@@ -31,10 +31,14 @@ Options:
 
 # Examples:
 
-## Stylish format:
+## Stylish (-f stylish):
 
 [![asciicast](https://asciinema.org/a/2RoXlpHAbHxUPSBaC1RWMgpy5.svg)](https://asciinema.org/a/2RoXlpHAbHxUPSBaC1RWMgpy5)
 
-## Plain format: 
+## Plain format (-f plain): 
 
 [![asciicast](https://asciinema.org/a/L0XiYIBydErXZ6w7RqRcPylOF.svg)](https://asciinema.org/a/L0XiYIBydErXZ6w7RqRcPylOF)
+
+## Json format (-f json):
+
+[![asciicast](https://asciinema.org/a/rBXPkFCCtpKt0nK0OMfe5V8kC.svg)](https://asciinema.org/a/rBXPkFCCtpKt0nK0OMfe5V8kC)
